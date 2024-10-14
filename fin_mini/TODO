@@ -1,0 +1,10 @@
+check if we have single 
+check if the single command is a builtin and execute it as a builtin or if it's a simple command and fork for it
+count the number of files we have and open all of them, make sure to write on the last one
+check for herdocs 
+check if we have multiple pipes and divide them on first child, middle child, last child 
+
+create a function called execute_builtins to execute the single command if it's a builtin
+createn a commad to execute the single command if it's only  a simple command
+extract the key from the env and store it in the linked list
+
