@@ -6,7 +6,7 @@
 /*   By: hichokri <hichokri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:23:18 by hichokri          #+#    #+#             */
-/*   Updated: 2024/10/16 12:34:41 by hichokri         ###   ########.fr       */
+/*   Updated: 2024/10/16 14:24:42 by hichokri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,6 @@ void execute_command(cmd_lst *command, t_env_store *head)
 	cmd = command->head;
 	path = find_path(head); //extracting the path
 	c_path = ft_split(path, ":"); // split the path by :
-	pid = fork();
-	
-		//arg = ft_split(cmd->args, " \r\f\v\t\n");// split the command and it's args
-		// while(cmd->args[k])
-		// {
-		// 	printf("--> %s \n",cmd->args[k]);
-		// 	k++;
-		// }
 			if(cmd->args != NULL)
 			{		
 				cmd_p = cmd_path(c_path, cmd->args[0]);
@@ -113,12 +105,12 @@ void execute_command(cmd_lst *command, t_env_store *head)
 				}
 				cmd = cmd->next;
 			}
-		else if(cmd->output_file_count >= 10)
-		{
-			open_outfiles ();
-			cmd = cmd->next;
-		}	
-	}
+		// else if(cmd->output_file_count >= 10)
+		// {
+		// 	open_outfiles ();
+		// 	cmd = cmd->next;
+		// }
+		open_files();	
 	waitpid(pid,NULL,0);
 }
 
