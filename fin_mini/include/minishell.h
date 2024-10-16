@@ -80,7 +80,7 @@ char **from_lst_to_array(t_env_store *head);
 int is_builtin(cmd_lst *command);
 token_lst *tokenize(char *input);
 void    execute_builtins(cmd_lst *command);
-void execute_command(cmd_lst *command, t_env_store *head);
+void check_commands(t_command *cmd, t_env_store *head);
 char *expand_variables(char *str);
 cmd_lst *parse(token_lst *tokens);
 void free_tokens(token_lst *tokens);

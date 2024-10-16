@@ -6,7 +6,7 @@
 /*   By: hichokri <hichokri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:23:18 by hichokri          #+#    #+#             */
-/*   Updated: 2024/10/16 14:24:42 by hichokri         ###   ########.fr       */
+/*   Updated: 2024/10/16 15:31:48 by hichokri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,25 +66,22 @@ char	**cmd_path(char **path, char *cmd)
 }
 
 // executing one single command before piping
-void execute_command(cmd_lst *command, t_env_store *head)
+void execute_command(t_command *cmd, t_env_store *head, t_token *token)
 {
 	int i;
-	t_command *cmd;
 	char **env_arr;
 	int pid;
 	char *path;
 	char **cmd_p;
 	char  **c_path;
 	char **arg;
-	int k = 0;
 
-	 i = 0;
-	 env_arr = from_lst_to_array(head);
-	cmd = command->head;
+	i = 0;
+	env_arr = from_lst_to_array(head);
 	path = find_path(head); //extracting the path
 	c_path = ft_split(path, ":"); // split the path by :
-			if(cmd->args != NULL)
-			{		
+			// if(cmd->args != NULL)
+			// {		
 				cmd_p = cmd_path(c_path, cmd->args[0]);
 				pid = fork();
 				if (pid == -1)
@@ -102,53 +99,43 @@ void execute_command(cmd_lst *command, t_env_store *head)
 			
 				i++;
 				}
-				}
-				cmd = cmd->next;
 			}
-		// else if(cmd->output_file_count >= 10)
-		// {
-		// 	open_outfiles ();
-		// 	cmd = cmd->next;
-		// }
-		open_files();	
 	waitpid(pid,NULL,0);
 }
 
-void check_commands(cmd_lst *command, t_env_store *head)
+void check_commands(t_command *cmd, t_env_store *head, t_token *token)
 {
     int i;
-    t_command *cmd;
     int count;
 
     i = 0;
-    cmd = command->head;
     count = count_args(cmd);
     // loop on the commands to check if they are builtins or simple command
     while (cmd)
     {
-        if (count == 1)
+        if (cmd->args != NULL)
         {
-            if (is_builtin(command))
-            {
-                execute_builtins(command);
-            }
-            else
+			if (count == 1)
 			{
-                execute_command(command, head);
-            }
-        }
-        else if (count > 1)
-        {
-                // is builtin
-                
-                // check for multiple commands
-        }
-        else
-        {
-                perror("command not found");
-        }
-        cmd = cmd->next;
-    }
+				open_files(cmd, token);
+				if (is_builtin(cmd))
+					execute_builtins(cmd);
+
+				else
+					execute_command(cmd, head);
+			}
+			else if (count > 1)
+			{
+						// is builtin
+						
+						// check for multiple commands
+			}
+			else
+				perror("command not found");
+				
+		}
+        	cmd = cmd->next;
+    	}
     
 }
 // void	child_process1(t_cmd *exec_cmd, char *cmd1, char *env[])

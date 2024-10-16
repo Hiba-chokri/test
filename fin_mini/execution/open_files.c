@@ -6,7 +6,7 @@
 /*   By: hichokri <hichokri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 10:51:46 by hichokri          #+#    #+#             */
-/*   Updated: 2024/10/16 14:47:42 by hichokri         ###   ########.fr       */
+/*   Updated: 2024/10/16 15:12:49 by hichokri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,26 +73,16 @@ int open_infiles(t_command *command)
     return (fd);
 }
 
-int append_files(t_command *command, t_token *token)
-{
-    char **append_files;
-    int i;
-    int fd;
-
-    i = 0;
-    return (fd);
-}
-
 void open_files(t_command *cmd, t_token *token)
 {
     if (cmd->output_file_count >= 10)
     {
-        open_outifles();
+        open_outifles(cmd, token);
         cmd = cmd->next;
     }
     else if (cmd->input_file_count >= 10)
     {
-        open_infiles();
+        open_infiles(cmd);
         cmd = cmd->next;
     }
 }
