@@ -6,7 +6,7 @@
 /*   By: hichokri <hichokri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 15:40:52 by hichokri          #+#    #+#             */
-/*   Updated: 2024/10/16 01:11:15 by hichokri         ###   ########.fr       */
+/*   Updated: 2024/10/16 12:03:36 by hichokri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,7 @@ int main(int argc, char *argv[], char **env) {
            head = env_var_add(env);
          if(head == NULL)
             printf("hello\n");
-        execute_command(commands, head);
-        // close(exec_cmd.fd[0]);
-	// close(exec_cmd.fd[1]);
-	 //waitpid(exec_cmd.pid1, &status, 0);
-	// waitpid(exec_cmd.pid2, &status, 0);
-	// return (WEXITSTATUS(status));
-        int i = 0;
+            int i = 0;
         while (cmd) {
             printf("Command %d:\n", i);
             for (int j = 0; j < cmd->arg_count; j++) 
@@ -91,6 +85,14 @@ int main(int argc, char *argv[], char **env) {
             cmd = cmd->next;
             i++;
         }
+        execute_command(commands, head);
+        // close(exec_cmd.fd[0]);
+	// close(exec_cmd.fd[1]);
+	 //waitpid(exec_cmd.pid1, &status, 0);
+	// waitpid(exec_cmd.pid2, &status, 0);
+	// return (WEXITSTATUS(status));
+     
+        // open_files(cmd);
         // check if the count_args is working
     //     cmd = commands->head;
     // //    int count = count_args(cmd);

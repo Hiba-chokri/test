@@ -7,4 +7,5 @@ check if we have multiple pipes and divide them on first child, middle child, la
 create a function called execute_builtins to execute the single command if it's a builtin
 createn a commad to execute the single command if it's only  a simple command
 extract the key from the env and store it in the linked list
-
+------------------------------------------------------------------------\
+create a function to open all the files and write in the last one

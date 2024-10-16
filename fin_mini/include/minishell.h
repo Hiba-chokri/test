@@ -11,7 +11,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <string.h>
-
+# include <fcntl.h>
 #define PATH_MAX 1024
 
 // Global var for exit status.
@@ -87,7 +87,11 @@ void free_tokens(token_lst *tokens);
 void free_commands(cmd_lst *commands);
 
 // New function prototypes
+void open_files(t_command *command);
 void handle_syntax_error(const char *message);
+void check_commands(cmd_lst *command, t_env_store *head);
+void    execute_builtins(cmd_lst *command);
+int is_builtin(cmd_lst *command);
 void	*free_str(char **tab, int c);
 int is_valid_variable_char(char c);
 void init_tokenize(token_lst **tokens, char **current_token);

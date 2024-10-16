@@ -6,12 +6,12 @@
 #    By: hichokri <hichokri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/11 11:22:29 by hichokri          #+#    #+#              #
-#    Updated: 2024/10/14 01:32:24 by hichokri         ###   ########.fr        #
+#    Updated: 2024/10/16 12:00:55 by hichokri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
-SAN = -fsanitize=address
+SAN = #-fsanitize=address
 CFLAGS = -g3 $(SAN) 
 
 SRC = main.c utils/ft_split.c \
@@ -21,7 +21,7 @@ SRC = main.c utils/ft_split.c \
 		utils/ft_atoi.c utils/ft_strcmp.c utils/ft_substr.c utils/ft_strlcat.c \
 		token_parsing/parsing.c token_parsing/tokenization.c utils/ft_strndup.c utils/ft_strncmp.c \
 		builtins/cd.c builtins/export.c token_parsing/expantion.c utils/count_args.c \
-       builtins/echo.c builtins/env.c builtins/pwd.c builtins/unset.c execution/execute.c 
+       builtins/echo.c builtins/env.c builtins/pwd.c builtins/unset.c execution/execute.c execution/exec_builtins.c \
 
 OBJ = ${SRC:.c=.o}
 

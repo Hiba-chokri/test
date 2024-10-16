@@ -6,7 +6,7 @@
 /*   By: hichokri <hichokri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:23:18 by hichokri          #+#    #+#             */
-/*   Updated: 2024/10/16 10:42:44 by hichokri         ###   ########.fr       */
+/*   Updated: 2024/10/16 12:34:41 by hichokri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,27 +84,39 @@ void execute_command(cmd_lst *command, t_env_store *head)
 	path = find_path(head); //extracting the path
 	c_path = ft_split(path, ":"); // split the path by :
 	pid = fork();
-	if (pid == -1)
-		perror("fork error");
-	if (pid == 0)
-	{
+	
 		//arg = ft_split(cmd->args, " \r\f\v\t\n");// split the command and it's args
 		// while(cmd->args[k])
 		// {
 		// 	printf("--> %s \n",cmd->args[k]);
 		// 	k++;
 		// }
-		cmd_p = cmd_path(c_path, cmd->args[0]);
-		while(cmd_p[i])
-		{
-			
-				if (access(cmd_p[i], F_OK | X_OK) == 0)
+			if(cmd->args != NULL)
+			{		
+				cmd_p = cmd_path(c_path, cmd->args[0]);
+				pid = fork();
+				if (pid == -1)
+				perror("fork error");
+				if (pid == 0)
+				{	
+				while(cmd_p[i])
 				{
-					execve(cmd_p[i], cmd->args, env_arr);
-					perror("execve error");
-				}
+					
+					if (access(cmd_p[i], F_OK | X_OK) == 0)
+					{
+						execve(cmd_p[i], cmd->args, env_arr);
+						perror("execve error");
+					}
 			
-			i++;
+				i++;
+				}
+				}
+				cmd = cmd->next;
+			}
+		else if(cmd->output_file_count >= 10)
+		{
+			open_outfiles ();
+			cmd = cmd->next;
 		}	
 	}
 	waitpid(pid,NULL,0);

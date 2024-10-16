@@ -6,7 +6,7 @@
 /*   By: hichokri <hichokri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 11:32:56 by mel-atti          #+#    #+#             */
-/*   Updated: 2024/10/15 23:09:19 by hichokri         ###   ########.fr       */
+/*   Updated: 2024/10/16 11:29:38 by hichokri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ cmd_lst *parse(token_lst *tokens) {
         token = token->next;
         i++;
     }
+    current_command->output_files[current_command->output_file_count] = NULL;
     current_command->args[current_command->arg_count] =  NULL;
+    current_command->input_files[current_command->input_file_count] =  NULL;
+     current_command->heredoc_delimiters[current_command->heredoc_count] =  NULL;
     return (finalize_parsing(commands, current_command));
 }
 
