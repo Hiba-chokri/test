@@ -6,7 +6,7 @@
 /*   By: hichokri <hichokri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 10:51:46 by hichokri          #+#    #+#             */
-/*   Updated: 2024/10/16 15:12:49 by hichokri         ###   ########.fr       */
+/*   Updated: 2024/10/16 19:45:41 by hichokri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,34 +19,28 @@ int open_outfiles(t_command *command, t_token *token)
     int fd;
 
     i = 0;
-    out_files = command->output_files;
-    if (token->type == TOKEN_REDIRECT_OUT)
+    // out_files = command->output_files;
+    while (out_files[i])
     {
-        while (out_files[i])
+        if (token->type == TOKEN_REDIRECT_OUT)
         {
-            // check if it's an infile or outfile and open them
             fd = open(out_files[i], O_CREAT | O_WRONLY | O_TRUNC, 0644);
-        if (fd == -1)
-        {
-            perror("opening outfile error");
-            exit(1);
+            if (fd == -1)
+            {
+                perror("opening outfile error");
+                exit(1);
+            } 
         }
-            i++;   
-        }
-    }
-    else if (token->type == TOKEN_REDIRECT_APPEND)
-    {
-        while (out_files[i])
+        else if (token->type == TOKEN_REDIRECT_APPEND)
         {
-                // check if it's an infile or outfile and open them
             fd = open(out_files[i], O_CREAT | O_WRONLY | O_APPEND, 0644);
             if (fd == -1)
             {
                 perror("opening outfile error");
                 exit(1);
             }
-            i++;
         }
+        i++;
     }
     return (fd);
 }
