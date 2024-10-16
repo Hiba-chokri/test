@@ -6,7 +6,7 @@
 /*   By: hichokri <hichokri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:23:18 by hichokri          #+#    #+#             */
-/*   Updated: 2024/10/14 16:03:31 by hichokri         ###   ########.fr       */
+/*   Updated: 2024/10/16 10:42:44 by hichokri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,45 +65,52 @@ char	**cmd_path(char **path, char *cmd)
 	return (path);
 }
 
-// executing one single command before doing the pipe
-void execute_commad(t_command *cmd, t_env_store *head)
+// executing one single command before piping
+void execute_command(cmd_lst *command, t_env_store *head)
 {
 	int i;
-	cmd_lst *command;
+	t_command *cmd;
+	char **env_arr;
 	int pid;
 	char *path;
 	char **cmd_p;
 	char  **c_path;
-	char **args;
+	char **arg;
+	int k = 0;
 
-	i = 0;
+	 i = 0;
+	 env_arr = from_lst_to_array(head);
 	cmd = command->head;
 	path = find_path(head); //extracting the path
 	c_path = ft_split(path, ":"); // split the path by :
-	while(c_path[i])
-	{
-		printf("--> %s \n",c_path[i]);
-		i++;
-	}
-	i = 0;
 	pid = fork();
 	if (pid == -1)
 		perror("fork error");
 	if (pid == 0)
 	{
-		args = ft_split(cmd->args[0], " \r\f\v\t\n"); // split the command and it's args
-		cmd_p = cmd_path(c_path, args[0]);
+		//arg = ft_split(cmd->args, " \r\f\v\t\n");// split the command and it's args
+		// while(cmd->args[k])
+		// {
+		// 	printf("--> %s \n",cmd->args[k]);
+		// 	k++;
+		// }
+		cmd_p = cmd_path(c_path, cmd->args[0]);
 		while(cmd_p[i])
 		{
-			{
+			
 				if (access(cmd_p[i], F_OK | X_OK) == 0)
-				execve(cmd_p[i], args, command->head);
-			}
+				{
+					execve(cmd_p[i], cmd->args, env_arr);
+					perror("execve error");
+				}
+			
+			i++;
 		}	
 	}
+	waitpid(pid,NULL,0);
 }
 
-void check_commands(cmd_lst *command)
+void check_commands(cmd_lst *command, t_env_store *head)
 {
     int i;
     t_command *cmd;
@@ -117,13 +124,13 @@ void check_commands(cmd_lst *command)
     {
         if (count == 1)
         {
-            if (is_builtin(cmd->args[0]))
+            if (is_builtin(command))
             {
-                execute_builtins(cmd->args[0]);
+                execute_builtins(command);
             }
             else
 			{
-                execute_simple_cmd(cmd->args[0]);
+                execute_command(command, head);
             }
         }
         else if (count > 1)

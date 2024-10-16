@@ -6,7 +6,7 @@
 /*   By: hichokri <hichokri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 15:40:52 by hichokri          #+#    #+#             */
-/*   Updated: 2024/10/14 01:34:20 by hichokri         ###   ########.fr       */
+/*   Updated: 2024/10/16 01:11:15 by hichokri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,6 @@ int main(int argc, char *argv[], char **env) {
 	// int		status;
 	
 	// // execute_single_command(&exec_cmd, argc, argv, envp);
-	// close(exec_cmd.fd[0]);
-	// close(exec_cmd.fd[1]);
-	// waitpid(exec_cmd.pid1, &status, 0);
-	// waitpid(exec_cmd.pid2, &status, 0);
-	// return (WEXITSTATUS(status));
         input = read_input();
         if (input == NULL) {
             if (feof(stdin)) {
@@ -71,6 +66,15 @@ int main(int argc, char *argv[], char **env) {
        // For now, we'll just print the commands!!
         
         t_command *cmd = commands->head;
+           head = env_var_add(env);
+         if(head == NULL)
+            printf("hello\n");
+        execute_command(commands, head);
+        // close(exec_cmd.fd[0]);
+	// close(exec_cmd.fd[1]);
+	 //waitpid(exec_cmd.pid1, &status, 0);
+	// waitpid(exec_cmd.pid2, &status, 0);
+	// return (WEXITSTATUS(status));
         int i = 0;
         while (cmd) {
             printf("Command %d:\n", i);
@@ -88,22 +92,25 @@ int main(int argc, char *argv[], char **env) {
             i++;
         }
         // check if the count_args is working
-        cmd = commands->head;
-       int count = count_args(cmd);
-       printf("%d\n", count);
+    //     cmd = commands->head;
+    // //    int count = count_args(cmd);
+    //    printf("%d\n", count);
        /////////////////////////////
      // check if env is stored in the linked list
        // display_env_values(env, head);
        //////////////////////////////////////
-       
-         head = env_var_add(env);
-         if(head == NULL)
-            printf("hello\n");
-         printf("%s\n",find_path(head));
+            // char ** arr = from_lst_to_array(head);
+            // int k = 0;
+            // while (arr[k])
+            // {
+            //     printf("->>%s\n", arr[k]);
+            //     k++;
+            // }
+        //  printf("%s\n",find_path(head));
         ////////////////////
         // print the node value
         
-        // print the key in value in find path 
+        // print the key in value in find path
         free(input);
         free_tokens(tokens);
         free_commands(commands);

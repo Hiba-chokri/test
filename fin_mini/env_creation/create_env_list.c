@@ -6,7 +6,7 @@
 /*   By: hichokri <hichokri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 04:58:12 by hichokri          #+#    #+#             */
-/*   Updated: 2024/10/14 01:12:19 by hichokri         ###   ########.fr       */
+/*   Updated: 2024/10/16 00:36:16 by hichokri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,41 @@ t_env_store *env_var_add(char **env)
 	}
 	return(head);
 }
+int calculate_size(t_env_store *head)
+{
+	int count;
+
+	count = 0;
+	while (head)
+	{
+		count++;
+		head = head->next;
+	}
+	return (count);
+}
+char **from_lst_to_array(t_env_store *head)
+{
+	char **array;
+	int size;
+	int i;
+
+	i = 0;
+	size = calculate_size(head);
+	array = (char **)malloc(sizeof(char *) * (size + 1));
+	if(!array)
+		return (0);
+	while (head->next)
+	{
+		array[i] = ft_strjoin(head->key, "=");
+		array[i] = ft_strjoin(array[i], head->value);
+		head = head->next;
+		i++;
+	}
+	array[i] = NULL;
+	return (array);
+}
 // print the env values stored in the struct
+
 void display_env_values(char **env, t_env_store *head)
 {
 	t_env_store *tmp;

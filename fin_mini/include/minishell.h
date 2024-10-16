@@ -76,9 +76,11 @@ typedef struct s_env_store
 // Function prototypes
 char *read_input();
 char	*find_path(t_env_store *head);
+char **from_lst_to_array(t_env_store *head);
 int is_builtin(cmd_lst *command);
 token_lst *tokenize(char *input);
 void    execute_builtins(cmd_lst *command);
+void execute_command(cmd_lst *command, t_env_store *head);
 char *expand_variables(char *str);
 cmd_lst *parse(token_lst *tokens);
 void free_tokens(token_lst *tokens);
@@ -134,6 +136,7 @@ size_t				ft_strlcpy(char *dst, char *src, size_t size);
 
 /* FUNCTIONS */
 void display_env_values(char **env, t_env_store *head);
+int calculate_size(t_env_store *head);
 int count_args(t_command *cmd);
 void add_back_to_env_list(t_env_store **head, t_env_store *node_to_add);
 t_env_store	*env_node(char *key, char *value);
